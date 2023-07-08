@@ -1,0 +1,9 @@
+DROP TABLE USERS;
+CREATE TABLE USERS (  
+id INT AUTO_INCREMENT  PRIMARY KEY,  
+username VARCHAR(50) NOT NULL,  
+password VARCHAR(10) NOT NULL,
+age INT,
+phonenumber VARCHAR(10),
+emailid VARCHAR(50)
+); 
