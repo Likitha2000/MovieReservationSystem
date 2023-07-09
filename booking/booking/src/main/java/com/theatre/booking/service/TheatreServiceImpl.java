@@ -36,14 +36,14 @@ public class TheatreServiceImpl implements TheatreService{
 		try {
 		Theatre newTheatre = new Theatre();
 		newTheatre.setMoviename((String) theatre.get("moviename"));
-		newTheatre.setCost((int) theatre.get("cost"));
+		newTheatre.setCost(Integer.valueOf((String) theatre.get("cost")));
 		newTheatre.setDate((String) theatre.get("date"));
-		newTheatre.setSeatsavailable((int) theatre.get("seatsavailable"));
+		newTheatre.setSeatsavailable(Integer.valueOf((String) theatre.get("seatsavailable")));
 		newTheatre.setTime((String) theatre.get("time"));
 		Theatre savedTheatre = theatreRepo.save(newTheatre);
 		TheatreResponse theatreResponse = new TheatreResponse();
 		theatreResponse.setTheatreId(savedTheatre.getId());
-		theatreResponse.setStatus("Suceess");
+		theatreResponse.setStatus("Success");
 		return theatreResponse;
 		}
 		catch(Exception e) {

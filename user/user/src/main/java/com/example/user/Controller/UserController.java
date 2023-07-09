@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,8 @@ public class UserController {
 	public ResponseEntity<Users> loginUser(@RequestParam String username, @RequestParam String password){
 		try {
 			Users user = userService.checkUser(username,password);
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("User-ID", ((Integer)user.getId()).toString());
 			return ResponseEntity.status(HttpStatus.OK).body(user);
 		}
 		catch(Exception e) {
@@ -46,15 +49,15 @@ public class UserController {
 	}
 	
 	@PostMapping("/registration")
-	public String registerUser(@RequestBody Map<String,Object> user){
+	public ResponseEntity<String> registerUser(@RequestBody Map<String,Object> user){
 		try {
 			if(userService.registerUser(user))
-				return "Successful";
+				return ResponseEntity.status(HttpStatus.OK).body("Successful");
 			else	
-				return "Unsuccesful";
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Unsuccessful");
 		}
 		catch(Exception e) {
-			return "Unsuccessful";
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unsuccessful");
 		}
 	}
 }

@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +29,7 @@ public class BookingController {
 	BookingService bookingService;
 
 	@GetMapping("/displayBookings")
-	public ResponseEntity<List<Booking>> getTheatreInformation(){
+	public ResponseEntity<List<Booking>> displayBookings(){
 		try {
 	        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getAllBookingInformation());
 		}
@@ -39,11 +39,21 @@ public class BookingController {
 	}
 	
 	@PostMapping("/bookTicket")
-	public ResponseEntity<BookedResponse> bookTicket(@RequestBody Map<String,Object> ticket) {
+	public ResponseEntity<BookedResponse> bookTicket(@RequestHeader("User-ID") String userId, @RequestBody Map<String,Object> ticket) {
 		try {
-			return ResponseEntity.status(HttpStatus.OK).body(bookingService.bookTicket(ticket));
+			return ResponseEntity.status(HttpStatus.OK).body(bookingService.bookTicket(userId, ticket));
 		}
 		catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+		}
+	}
+	
+	@PostMapping("/displayBookingById")
+	public ResponseEntity<List<Booking>> displayBookingById(@RequestHeader("User-ID") String userId){
+		try {
+	        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getBookingById(userId));
+		}
+		catch(Exception e){
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 	}

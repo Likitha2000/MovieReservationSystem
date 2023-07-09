@@ -30,26 +30,37 @@ public class BookingServiceImpl implements BookingService{
 	}
 
 	@Override
-	public BookedResponse bookTicket(Map<String, Object> ticket) {
+	public BookedResponse bookTicket(String userId, Map<String, Object> ticket) {
 		BookedResponse bookingResponse = new BookedResponse();
 		List<Theatre> availablities = theatreRepo.findAll(); 
 		List<Theatre> matchedTheatre = availablities.stream()
-		.filter(x -> x.getMoviename().equalsIgnoreCase((String) ticket.get("moviename")) && x.getSeatsavailable() >= (int)ticket.get("seats") && x.getDate().equals(ticket.get("date")) &&  x.getTime().equals(ticket.get("time")))
+		.filter(x -> x.getMoviename().equalsIgnoreCase((String) ticket.get("moviename")) 
+				&& x.getSeatsavailable() >= Integer.valueOf((String)ticket.get("seats")) 
+				&& x.getDate().equals(ticket.get("date"))
+				&&  x.getTime().equals(ticket.get("time")))
 		.collect(Collectors.toList());
 		Booking newBooking = new Booking();
 		newBooking.setMoviename((String) ticket.get("moviename"));
-		newBooking.setSeats((int) ticket.get("seats"));
+		newBooking.setSeats(Integer.valueOf((String)ticket.get("seats")));
 		newBooking.setDate( (String) ticket.get("date"));
-		newBooking.setTotalcost((int) ticket.get("seats") * matchedTheatre.get(0).getCost());
-			if(bookingRepo.save(newBooking).getClass() == Booking.class) {
+		newBooking.setTotalcost(Integer.valueOf((String)ticket.get("seats")) * matchedTheatre.get(0).getCost());
+		newBooking.setUserid(Integer.valueOf(userId));
+		Booking returnedBooking = bookingRepo.save(newBooking);
+			if(returnedBooking!=null) {
 				bookingResponse.setTotalCost(newBooking.getTotalcost());
-				bookingResponse.setBookingId(1);
+				bookingResponse.setBookingId(returnedBooking.getId());
 				return bookingResponse;
 			}
 			else {
 				return null;
 			}
 			
+	}
+
+	@Override
+	public List<Booking> getBookingById(String userId) {
+		// TODO Auto-generated method stub
+		return bookingRepo.findByUserId(Integer.valueOf(userId));
 	}
 
 }
