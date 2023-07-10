@@ -11,6 +11,4 @@ public interface BookingService {
 	List<Booking> getAllBookingInformation();
 
 	BookedResponse bookTicket(String userId, Map<String, Object> ticket);
-
-	List<Booking> getBookingById(String userId);
 }

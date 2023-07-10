@@ -31,7 +31,7 @@ public class UserController {
 		}
 		catch(Exception e) {
 			System.out.println("Error retrieving al users");
-			return null;
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 	}
 	
@@ -41,10 +41,10 @@ public class UserController {
 			Users user = userService.checkUser(username,password);
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("User-ID", ((Integer)user.getId()).toString());
-			return ResponseEntity.status(HttpStatus.OK).body(user);
+			return ResponseEntity.ok().headers(headers).body(user);
 		}
 		catch(Exception e) {
-			return null;
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 		}
 	}
 	

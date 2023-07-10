@@ -83,25 +83,4 @@ public class BookingControllerTest {
 	}
 
 
-	@Test
-	public void testDisplayBookingById() {
-		Booking mockedBooking = new Booking();
-		mockedBooking.setId(101);
-		mockedBooking.setDate("20/09/2023");
-		mockedBooking.setMoviename("mocked Movie name");
-		ArrayList<Booking> bookingList = new ArrayList<Booking>();
-		bookingList.add(mockedBooking);
-		when(bookingService.getBookingById("101")).thenReturn(bookingList);
-		ResponseEntity<List<Booking>> response = bookingController.displayBookingById("101");
-		assertEquals(response.getStatusCode(),HttpStatus.OK);
-		assertEquals(response.getBody().get(0),mockedBooking);
-	}
-
-	@Test
-	public void testDisplayBookingByIdErrorScenario() {
-		when(bookingService.getBookingById("101")).thenThrow(NullPointerException.class);
-		ResponseEntity<List<Booking>> response = bookingController.displayBookingById("101");
-		assertEquals(response.getStatusCode(),HttpStatus.NO_CONTENT);
-	}
-
 }

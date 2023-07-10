@@ -80,17 +80,4 @@ public class BookingServiceImplTest {
 		
 	}
 
-	@Test
-	public void testGetBookingById() {
-		Booking mockedBooking = new Booking();
-		mockedBooking.setId(101);
-		mockedBooking.setDate("20/09/2023");
-		mockedBooking.setMoviename("mocked Movie name");
-		List<Booking> bookingList = new ArrayList<Booking>();
-		bookingList.add(mockedBooking);
-		when(bookingRepo.findByUserId(any(Integer.class))).thenReturn(bookingList);
-		assertEquals(bookingServiceImpl.getBookingById("101").get(0),mockedBooking);
-		
-	}
-
 }

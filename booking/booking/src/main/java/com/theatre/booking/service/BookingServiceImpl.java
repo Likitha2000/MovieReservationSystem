@@ -57,10 +57,4 @@ public class BookingServiceImpl implements BookingService{
 			
 	}
 
-	@Override
-	public List<Booking> getBookingById(String userId) {
-		// TODO Auto-generated method stub
-		return bookingRepo.findByUserId(Integer.valueOf(userId));
-	}
-
 }

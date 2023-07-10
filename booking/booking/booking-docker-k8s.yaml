@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking-app
+  template:
+    metadata:
+      labels:
+        app: booking-app
+    spec:
+      containers:
+      - name: booking-app
+        image: likitha2000/theatre-repo
+        ports:
+        - containerPort: 8080

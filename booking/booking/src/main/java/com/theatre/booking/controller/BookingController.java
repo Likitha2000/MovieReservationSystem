@@ -48,13 +48,4 @@ public class BookingController {
 		}
 	}
 	
-	@PostMapping("/displayBookingById")
-	public ResponseEntity<List<Booking>> displayBookingById(@RequestHeader("User-ID") String userId){
-		try {
-	        return ResponseEntity.status(HttpStatus.OK).body(bookingService.getBookingById(userId));
-		}
-		catch(Exception e){
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-		}
-	}
 }
